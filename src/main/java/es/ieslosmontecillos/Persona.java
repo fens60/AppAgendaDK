@@ -16,6 +16,7 @@ public class Persona {
     private final StringProperty estadoCivil = new SimpleStringProperty();
     private final IntegerProperty jubilado = new SimpleIntegerProperty();
     private final StringProperty foto = new SimpleStringProperty();
+
     //campo id
     @XmlElement(name = "id")
     public Integer getId() {

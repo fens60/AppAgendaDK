@@ -9,8 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
@@ -18,6 +17,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AgendaViewController implements Initializable {
@@ -33,11 +33,21 @@ public class AgendaViewController implements Initializable {
     private TableColumn<Persona,String> columnApellidos;
     @FXML
     private TableColumn<Persona,String> columnEmail;
+    @FXML
+    private TextField textFieldNombre;
+    @FXML
+    private TextField textFieldApellido;
+    @FXML
+    private Button Suprimir;
+    @FXML
+    private Button Nuevo;
+    @FXML
+    private Button Editar;
 
     public void setDataUtil(DataUtil dataUtil){
     }
 
-    @FXML
+    @Deprecated
     private void onActionButtonNuevo(ActionEvent event){
         try{
 
@@ -47,6 +57,8 @@ public class AgendaViewController implements Initializable {
             PersonaDetalleViewController personaDetalleViewController =
                     (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
+            personaSeleccionada = new Persona();
+            personaDetalleViewController.setPersona(personaSeleccionada,true);
 
             Parent rootDetalleView=fxmlLoader.load();
             // Ocultar la vista de la lista
@@ -55,16 +67,52 @@ public class AgendaViewController implements Initializable {
             StackPane rootMain =
                     (StackPane) rootAgendaView.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
+            personaDetalleViewController.setPersona(personaSeleccionada,false);
+            personaDetalleViewController.mostrarDatos();
+
         } catch (IOException ex){
             System.out.println("Error volcado"+ex);}
     }
 
-    @FXML
+    @Deprecated
     private void onActionButtonEditar(ActionEvent event){
+        FXMLLoader fxmlLoader = new
+                FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
+        PersonaDetalleViewController personaDetalleViewController =
+                (PersonaDetalleViewController) fxmlLoader.getController();
+        personaDetalleViewController.setRootAgendaView(rootAgendaView);
+        personaDetalleViewController.setPersona(personaSeleccionada,false);
+        personaDetalleViewController.mostrarDatos();
+
     }
-    @FXML
+
+    @Deprecated
     private void onActionButtonSuprimir(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar");
+        alert.setHeaderText("¿Desea suprimir el siguiente registro?");
+        alert.setContentText(personaSeleccionada.getNombre() + " "+ personaSeleccionada.getApellidos());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // Acciones a realizar si el usuario acepta
+            dataUtil.eliminarPersona(personaSeleccionada);
+            tableViewAgenda.getItems().remove(personaSeleccionada);
+            tableViewAgenda.getFocusModel().focus(null);
+            tableViewAgenda.requestFocus();
+
+        } else {
+            // Acciones a realizar si el usuario cancela
+            int numFilaSeleccionada=
+                    tableViewAgenda.getSelectionModel().getSelectedIndex();
+            tableViewAgenda.getItems().set(numFilaSeleccionada,personaSeleccionada);
+            TablePosition pos = new TablePosition(tableViewAgenda,
+                    numFilaSeleccionada,null);
+            tableViewAgenda.getFocusModel().focus(pos);
+            tableViewAgenda.requestFocus();
+        }
+
     }
+
 
 
     public void setOlProvincias(ObservableList<Provincia> olProvincias) {
@@ -108,4 +156,7 @@ public class AgendaViewController implements Initializable {
         this.rootAgendaView = rootAgendaView;
     }
 
+    @FXML
+    public void onActionButtonGuardar(ActionEvent actionEvent) {
+    }
 }

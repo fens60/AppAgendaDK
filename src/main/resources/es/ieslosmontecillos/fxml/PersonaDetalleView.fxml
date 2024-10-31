@@ -15,8 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.ieslosmontecillos.PersonaDetalleViewController">
+<AnchorPane fx:id="rootPersonaDetalleView" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.ieslosmontecillos.PersonaDetalleViewController">
    <children>
       <GridPane prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -49,27 +48,26 @@
             <Label layoutX="10.0" layoutY="10.0" prefHeight="39.0" prefWidth="200.0" text="Jubilación:" GridPane.rowIndex="8" />
             <Label layoutX="10.0" layoutY="10.0" prefHeight="39.0" prefWidth="200.0" text="Provincia:" GridPane.rowIndex="9" />
             <Label layoutX="10.0" layoutY="10.0" prefHeight="39.0" prefWidth="200.0" text="Foto:" GridPane.rowIndex="10" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField prefHeight="14.0" prefWidth="340.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <DatePicker prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="textFieldNombre" GridPane.columnIndex="1" />
+            <TextField fx:id="textFieldApellidos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="textFieldTelefono" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="textFieldEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="textFieldNumHijos" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="textFieldSalario" prefHeight="14.0" prefWidth="340.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <DatePicker fx:id="datePickerFechaNacimiento" prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <HBox prefHeight="5.0" prefWidth="340.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <RadioButton mnemonicParsing="false" text="Soltero/a">
+                  <RadioButton fx:id="radioButtonSoltero" mnemonicParsing="false" text="Soltero/a">
                      <padding>
                         <Insets right="10.0" top="10.0" />
                      </padding>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Casado/a">
+                  <RadioButton fx:id="radioButtonCasado" mnemonicParsing="false" text="Casado/a">
                      <padding>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Viudo/a">
+                  <RadioButton fx:id="radioButtonViudo" mnemonicParsing="false" text="Viudo/a">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -79,15 +77,15 @@
                   </RadioButton>
                </children>
             </HBox>
-            <CheckBox mnemonicParsing="false" text="Jubilado" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <CheckBox fx:id="checkBoxJubilado" mnemonicParsing="false" text="Jubilado" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </CheckBox>
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <ComboBox fx:id="comboBoxProvincia" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <children>
-                  <ImageView fitHeight="67.0" fitWidth="212.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imageViewFoto" fitHeight="67.0" fitWidth="212.0" pickOnBounds="true" preserveRatio="true" />
                   <Button mnemonicParsing="false" text="Button">
                      <HBox.margin>
                         <Insets left="20.0" top="20.0" />
