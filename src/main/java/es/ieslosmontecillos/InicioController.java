@@ -25,12 +25,10 @@ public class InicioController {
     @FXML
     public void iniciaApp(Event event){
         try{
-            FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
             rootMain.getChildren().add(rootAgendaView);
-            AgendaViewController agendaViewController=
-                    (AgendaViewController) fxmlLoader.getController();
+            AgendaViewController agendaViewController= (AgendaViewController) fxmlLoader.getController();
             agendaViewController.setDataUtil(dataUtil);
             agendaViewController.setOlProvincias(olProv);
             agendaViewController.setOlPersonas(olPers);

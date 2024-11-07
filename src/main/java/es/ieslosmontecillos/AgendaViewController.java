@@ -21,8 +21,11 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AgendaViewController implements Initializable {
+    private DataUtil dataUtil;
+    private ObservableList<es.ieslosmontecillos.entities.Provincia> olProvincias;
     private ObservableList<Persona> olPersonas;
     private Persona personaSeleccionada;
+    @FXML
     private Pane rootAgendaView;
 
     @FXML
@@ -45,6 +48,13 @@ public class AgendaViewController implements Initializable {
     private Button Editar;
 
     public void setDataUtil(DataUtil dataUtil){
+        this.dataUtil=dataUtil;
+    }
+    public void setOlProvincias(ObservableList<es.ieslosmontecillos.entities.Provincia> olProvincias) {
+        this.olProvincias = olProvincias;
+    }
+    public void setOlPersonas(ObservableList<Persona> olPersonas) {
+        this.olPersonas = olPersonas;
     }
 
     @Deprecated
@@ -52,10 +62,8 @@ public class AgendaViewController implements Initializable {
         try{
 
             // Cargar la vista de detalle
-            FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-            PersonaDetalleViewController personaDetalleViewController =
-                    (PersonaDetalleViewController) fxmlLoader.getController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
+            PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
             personaSeleccionada = new Persona();
             personaDetalleViewController.setPersona(personaSeleccionada,true);
@@ -63,12 +71,13 @@ public class AgendaViewController implements Initializable {
             Parent rootDetalleView=fxmlLoader.load();
             // Ocultar la vista de la lista
             rootAgendaView.setVisible(false);
-            //Añadir la vista detalle al StackPane principal para que se muestre
-            StackPane rootMain =
-                    (StackPane) rootAgendaView.getScene().getRoot();
-            rootMain.getChildren().add(rootDetalleView);
             personaDetalleViewController.setPersona(personaSeleccionada,false);
             personaDetalleViewController.mostrarDatos();
+            personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
+            personaDetalleViewController.setDataUtil(dataUtil);
+            //Añadir la vista detalle al StackPane principal para que se muestre
+            StackPane rootMain = (StackPane) rootAgendaView.getScene().getRoot();
+            rootMain.getChildren().add(rootDetalleView);
 
         } catch (IOException ex){
             System.out.println("Error volcado"+ex);}
@@ -83,6 +92,8 @@ public class AgendaViewController implements Initializable {
         personaDetalleViewController.setRootAgendaView(rootAgendaView);
         personaDetalleViewController.setPersona(personaSeleccionada,false);
         personaDetalleViewController.mostrarDatos();
+        personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
+        personaDetalleViewController.setDataUtil(dataUtil);
 
     }
 
@@ -105,21 +116,12 @@ public class AgendaViewController implements Initializable {
             int numFilaSeleccionada=
                     tableViewAgenda.getSelectionModel().getSelectedIndex();
             tableViewAgenda.getItems().set(numFilaSeleccionada,personaSeleccionada);
-            TablePosition pos = new TablePosition(tableViewAgenda,
-                    numFilaSeleccionada,null);
+            TablePosition pos = new TablePosition(tableViewAgenda, numFilaSeleccionada,null);
             tableViewAgenda.getFocusModel().focus(pos);
             tableViewAgenda.requestFocus();
         }
-
     }
 
-
-
-    public void setOlProvincias(ObservableList<Provincia> olProvincias) {
-    }
-    public void setOlPersonas(ObservableList<Persona> olPersonas) {
-        this.olPersonas = olPersonas;
-    }
 
     @FXML
     private TableColumn<Persona,String> columnProvincia;
@@ -128,24 +130,32 @@ public class AgendaViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        columnApellidos.setCellValueFactory(new
-                PropertyValueFactory<>("apellidos"));
-        columnEmail.setCellValueFactory(new
-                PropertyValueFactory<>("email"));
+        columnNombre.setCellValueFactory(new PropertyValueFactory<Persona,String>("nombre"));
+        columnApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
+        columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         columnProvincia.setCellValueFactory(
-                cellData->{
-                    SimpleStringProperty property=new SimpleStringProperty();
-                    if (cellData.getValue().getProvincia()!= null){
-                        property.setValue(cellData.getValue().getProvincia().getNombre());
+                cellData ->{
+                    SimpleStringProperty property = new SimpleStringProperty();
+                    if(cellData.getValue().getProvincia()!= null){
+                        property.setValue((cellData.getValue().getProvincia().getNombre()));
                     }
-                    return property;
-                });
-        tableViewAgenda.getSelectionModel().selectedItemProperty().addListener(
-                (observable,oldValue,newValue)->{
-                    personaSeleccionada=newValue;
-                });
 
+                    return property;
+                }
+        );
+
+        tableViewAgenda.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    personaSeleccionada=newValue;
+                    if(personaSeleccionada!=null){
+                        textFieldNombre.setText(personaSeleccionada.getNombre());
+                        textFieldApellido.setText(personaSeleccionada.getApellidos());
+                    }else{
+                        textFieldNombre.setText("");
+                        textFieldApellido.setText("");
+                    }
+                }
+        );
     }
 
     public void cargarTodasPersonas(){

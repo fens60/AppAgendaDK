@@ -17,143 +17,155 @@ public class Persona {
     private final IntegerProperty jubilado = new SimpleIntegerProperty();
     private final StringProperty foto = new SimpleStringProperty();
 
-    //campo id
-    @XmlElement(name = "id")
-    public Integer getId() {
+    // Campo id
+    @XmlElement (name = "id")
+    public Integer getId(){
         return id.get();
     }
-    public IntegerProperty idProperty() {
+    public IntegerProperty idProperty(){
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Integer id){
         this.id.set(id);
     }
-    //campo nombre
-    @XmlElement(name = "nombre")
-    public String getNombre() {
+
+    // Campo nombre
+    @XmlElement (name = "nombre")
+    public String getNombre(){
         return nombre.get();
     }
-    public StringProperty nombreProperty() {
+    public StringProperty nombreProperty(){
         return nombre;
     }
-    public void setNombre(String nombre) {
+    public void setNombre(String nombre){
         this.nombre.set(nombre);
     }
-    //campo apellidos
-    @XmlElement(name = "apellidos")
-    public String getApellidos() {
+
+    // Campo apellidos
+    @XmlElement (name = "apellidos")
+    public String getApellidos(){
         return apellidos.get();
     }
-    public StringProperty apellidosProperty() {
+    public StringProperty apellidosProperty(){
         return apellidos;
     }
-    public void setApellidos(String apellidos) {
+    public void setApellidos(String apellidos){
         this.apellidos.set(apellidos);
     }
-    //campo teléfono
-    @XmlElement(name = "telefono")
-    public String getTelefono() {
+
+    // Campo teléfono
+    @XmlElement (name = "telefono")
+    public String getTelefono(){
         return telefono.get();
     }
-    public StringProperty telefonoProperty() {
+    public StringProperty telefonoProperty(){
         return telefono;
     }
-    public void setTelefono(String telefono) {
+    public void setTelefono(String telefono){
         this.telefono.set(telefono);
     }
-    //campo email
-    @XmlElement(name = "email")
-    public String getEmail() {
+
+    // Campo email
+    @XmlElement (name = "email")
+    public String getEmail(){
         return email.get();
     }
-    public StringProperty emailProperty() {
+    public StringProperty emailProperty(){
         return email;
     }
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email.set(email);
     }
-    //campo provincia
+
+    // Cmapo provincia
     @XmlElement(name = "provincia")
-    public Provincia getProvincia() {
+    public Provincia getProvincia(){
         return (Provincia) provincia.get();
     }
-    public ObjectProperty provinciaProperty() {
+    public ObjectProperty provinciaProperty(){
         return provincia;
     }
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(Provincia provincia){
         this.provincia.set(provincia);
     }
-    //campo Fecha Nacimiento
-    @XmlElement(name = "fechaNacimiento")
-    public String getFechaNacimiento() {
+
+    // Campo Fecha Nacimiento
+    @XmlElement (name = "fecha_nacimiento")
+    public String getFechaNacimiento(){
         return fechaNacimiento.get();
     }
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento.set(fechaNacimiento);
-    }
-    public StringProperty fechaNacimientoProperty() {
+    public StringProperty fechaNacimientoProperty(){
         return fechaNacimiento;
     }
-    //campo Num Hijos
-    @XmlElement(name = "numHijos")
-    public Integer getNumHijos() {
+    public void setFechaNacimiento(String fechaNacimiento){
+        this.fechaNacimiento.set(fechaNacimiento);
+    }
+
+    // Campo num Hijos
+    @XmlElement (name = "num_hijos")
+    public Integer getNumHijos(){
         Integer numeroHijos;
         numeroHijos = this.numHijos.getValue().intValue();
         return numeroHijos;
     }
-    public IntegerProperty numHijosProperty() {
+    public IntegerProperty numHijosProperty(){
         return numHijos;
     }
     public void setNumHijos(Integer numHijos) {
         if (numHijos != null) {
             this.numHijos.set(numHijos);
-        } else {
+        } else
+        {
             this.numHijos.set(0);
         }
     }
-    //campo Estado Civil
-    @XmlElement(name = "estadoCivil")
-    public String getEstadoCivil() {
+
+    // Campo Estado Civil
+    @XmlElement (name = "estado_civil")
+    public String getEstadoCivil(){
         return estadoCivil.get();
     }
-    public StringProperty estadoCivilProperty() {
+    public StringProperty estadoCivilProperty(){
         return estadoCivil;
     }
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil.set(estadoCivil);
     }
-    //campo Salario
-    @XmlElement(name = "salario")
-    public Double getSalario() {
+
+    // Campo Salario
+    @XmlElement (name = "salario")
+    public Double getSalario(){
         return salario.get();
     }
-    public DoubleProperty salarioProperty() {
+    public DoubleProperty salarioProperty(){
         return salario;
     }
     public void setSalario(Double salario) {
-        if (salario != null) {
+        if(salario != null) {
             this.salario.set(salario);
         } else {
             this.salario.set(0.0);
         }
     }
-    //campo Jubilado
-    @XmlElement(name = "jubilado")
-    public Integer getJubilado() {
+
+    // Campo Jubilado
+    @XmlElement (name = "jubilado")
+    public Integer getJubilado(){
         return jubilado.get();
     }
-    public IntegerProperty jubiladoProperty() {
+    public IntegerProperty jubiladoProperty(){
         return jubilado;
     }
     public void setJubilado(Integer jubilado) {
         this.jubilado.set(jubilado);
     }
-    //campo Foto
-    @XmlElement(name = "foto")
-    public String getFoto() {
+
+    // Campo Foto
+    @XmlElement (name = "foto")
+    public String getFoto(){
         return foto.get();
     }
-    public StringProperty fotoProperty() {
+    public StringProperty fotoProperty(){
         return foto;
     }
     public void setFoto(String foto) {

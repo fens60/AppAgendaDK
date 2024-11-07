@@ -85,20 +85,25 @@
             <ComboBox fx:id="comboBoxProvincia" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <children>
-                  <ImageView fx:id="imageViewFoto" fitHeight="67.0" fitWidth="212.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button mnemonicParsing="false" text="Button">
+                  <ImageView fx:id="imageViewFoto" fitHeight="67.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="Examinar" mnemonicParsing="false" onAction="#onActionButtonExaminar" text="Examinar">
                      <HBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="5.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="SuprimirFoto" layoutX="242.0" layoutY="30.0" mnemonicParsing="false" onAction="#onActionSuprimirFoto" text="Suprimir">
+                     <HBox.margin>
+                        <Insets left="5.0" top="20.0" />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" text="Guardar" GridPane.columnIndex="2">
+            <Button fx:id="Guardar" mnemonicParsing="false" onAction="#onActionButtonGuardar" text="Guardar" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="Cancelar" mnemonicParsing="false" onAction="#onActionButtonCancelar" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
