@@ -327,7 +327,7 @@ public class PersonaDetalleViewController {
         comboBoxProvincia.setItems(dataUtil.getOlProvincias());
 
         comboBoxProvincia.setCellFactory(
-                (ListView<es.ieslosmontecillos.entities.Provincia> l)-> new ListCell<>(){
+                (ListView<es.ieslosmontecillos.entities.Provincia> l)-> new ListCell<Provincia>(){
                     @Override
                     protected void updateItem(es.ieslosmontecillos.entities.Provincia provincia, boolean empty){
                         super.updateItem(provincia, empty);
