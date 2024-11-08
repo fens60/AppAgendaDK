@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>es.ieslosmontecillos</groupId>
-    <artifactId>appagendadk</artifactId>
+    <artifactId>AppAgendaDK</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>AppAgendaDK</name>
-
+    <name>AppAgendaDk</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF8</project.reporting.outputEncoding>
@@ -18,7 +15,7 @@
         <javafx.plugin.version>0.0.8</javafx.plugin.version>
         <charm.version>6.2.3</charm.version>
         <connect.version>2.0.1</connect.version>
-
+        <!--<gluonfx.target>android</gluonfx.target>-->
         <gluonfx.target>host</gluonfx.target>
         <mainClassName>es.ieslosmontecillos.AppAgendaDK</mainClassName>
     </properties>
@@ -30,9 +27,10 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-fxml</artifactId>
-        <version>${javafx.version}</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+
         </dependency>
         <dependency>
             <groupId>org.controlsfx</groupId>
@@ -91,10 +89,10 @@
             <version>2.3.1</version>
         </dependency>
         <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>jakarta.json</artifactId>
-        <version>1.1.6</version>
-        <classifier>module</classifier>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>1.1.6</version>
+            <classifier>module</classifier>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -103,9 +101,7 @@
             <version>2.3.1</version>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
-
     <repositories>
         <repository>
             <id>gluon-releases</id>
@@ -118,7 +114,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>17</source>
                     <target>17</target>
@@ -156,7 +152,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <execution><id>copy-dependencies</id>
+                    <execution>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
@@ -178,7 +174,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>es.ieslosmontecillos.AppAgendaDK </mainClass>
+                            <mainClass>es.ieslosmontecillos.AppAgendaDK</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

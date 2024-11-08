@@ -128,8 +128,8 @@ public class Persona {
     public StringProperty estadoCivilProperty(){
         return estadoCivil;
     }
-    public void setEstadoCivil(String estadoCivil) {
-        this.estadoCivil.set(estadoCivil);
+    public void setEstadoCivil(char estadoCivil) {
+        this.estadoCivil.set(""+estadoCivil);
     }
 
     // Campo Salario

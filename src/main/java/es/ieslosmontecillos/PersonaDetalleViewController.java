@@ -32,17 +32,15 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.sun.glass.ui.Cursor.setVisible;
-
 public class PersonaDetalleViewController {
     private Pane rootAgendaView;
-    private TableView tableViewPrevio;
+    private TableView<Persona> tableViewPrevio;
     private Persona persona;
     private DataUtil dataUtil;
     private boolean nuevaPersona;
-    public static final String CASADO = "C";
-    public static final String SOLTERO = "S";
-    public static final String VIUDO = "V";
+    public static final char CASADO='c';
+    public static final char SOLTERO='s';
+    public static final char VIUDO='v';
     public static final String CARPETA_FOTOS = "Fotos";
 
     @FXML
@@ -71,7 +69,6 @@ public class PersonaDetalleViewController {
     private TextField textFieldEmail;
     @FXML
     private ComboBox<Provincia> comboBoxProvincia;
-    
     @FXML
     private TextField textFieldApellidos;
     
@@ -80,16 +77,12 @@ public class PersonaDetalleViewController {
     public void initialize() {
     }
 
-    @Deprecated
+    @FXML
     private void onActionButtonGuardar(ActionEvent event){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-        PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
-        personaDetalleViewController.setRootAgendaView(rootAgendaView);
         boolean errorFormato = false;
-        int numFilaSeleccionada = 0;
+
         StackPane rootMain = (StackPane) rootPersonaDetalleView.getScene().getRoot();
         rootMain.getChildren().remove(rootPersonaDetalleView);
-        rootAgendaView.setVisible(true);
 
         if(textFieldNombre.getText() != null && textFieldNombre.getText().length() < 20)
         {
@@ -115,8 +108,6 @@ public class PersonaDetalleViewController {
             textFieldApellidos.requestFocus();
         }
 
-        persona.setNombre(textFieldNombre.getText());
-        persona.setApellidos(textFieldApellidos.getText());
         persona.setTelefono(textFieldTelefono.getText());
         persona.setEmail(textFieldEmail.getText());
 
@@ -130,7 +121,7 @@ public class PersonaDetalleViewController {
                 textFieldNumHijos.requestFocus();
             }
         }
-        
+
         if(!textFieldSalario.getText().isEmpty()) {
             try {
                 Double dSalario = Double.valueOf(textFieldSalario.getText());
@@ -142,9 +133,9 @@ public class PersonaDetalleViewController {
                 textFieldSalario.requestFocus();
             }
         }
-        
+
         persona.setJubilado(checkBoxJubilado.isSelected()?1:0);
-        
+
         if(radioButtonCasado.isSelected()){
             persona.setEstadoCivil(CASADO);
         } else if (radioButtonSoltero.isSelected()){
@@ -152,7 +143,7 @@ public class PersonaDetalleViewController {
         } else if (radioButtonViudo.isSelected()){
             persona.setEstadoCivil(VIUDO);
         }
-        
+
         if(datePickerFechaNacimiento.getValue() != null){
             LocalDate localDate = datePickerFechaNacimiento.getValue();
             ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
@@ -164,12 +155,9 @@ public class PersonaDetalleViewController {
         } else {
             persona.setFechaNacimiento(null);
         }
-        
-        TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada,null);
-        tableViewPrevio.getFocusModel().focus(pos);
-        tableViewPrevio.requestFocus();
+
         if( comboBoxProvincia.getValue() != null){
-            persona.setProvincia((Provincia) comboBoxProvincia.getValue());
+            persona.setProvincia(comboBoxProvincia.getValue());
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Debe indicar una provincia");
             alert.showAndWait();
@@ -177,125 +165,75 @@ public class PersonaDetalleViewController {
         }
 
         // Recoger datos de pantalla
-        if (!errorFormato) { // Los datos introducidos son correctos
-            try {
-                // Aquí va el código para guardar el objeto en BD, enviar al servidor
-                // y ocultar la vista actual
+        if(!errorFormato){
+            try{
+                /* Guarda el objeto en BD, envía al servidor y oculta la vista actual*/
                 if (nuevaPersona){
                     dataUtil.addPersona(persona);
+                }else{
+                    dataUtil.actualizarPersona(persona);
+                }
+
+                rootAgendaView.setVisible(true);
+
+                int numFilaSeleccionada;
+                if (nuevaPersona){
                     tableViewPrevio.getItems().add(persona);
-                    numFilaSeleccionada = tableViewPrevio.getItems().size()- 1;
+                    numFilaSeleccionada = tableViewPrevio.getItems().size()-1;
                     tableViewPrevio.getSelectionModel().select(numFilaSeleccionada);
                     tableViewPrevio.scrollTo(numFilaSeleccionada);
-                } else {
-                    dataUtil.actualizarPersona(persona);
-                    numFilaSeleccionada= tableViewPrevio.getSelectionModel().getSelectedIndex();
-                    tableViewPrevio.getItems().set(numFilaSeleccionada,persona);
+                }else{
+                    numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
+                    tableViewPrevio.getItems().set(numFilaSeleccionada, persona);
                 }
-            } catch (Exception ex) { //Los datos introducidos no cumplen requisitos
+
+                TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);
+                tableViewPrevio.getFocusModel().focus(pos);
+                tableViewPrevio.requestFocus();
+
+            } catch (Exception ex){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("No se han podido guardar los cambios. " + "Compruebe que los datos cumplen los requisitos");
+                alert.setHeaderText("no se han podido guardar los cambios. " + "Compruebe que los datos cumplean los requisitos");
                 alert.setContentText(ex.getLocalizedMessage());
                 alert.showAndWait();
             }
         }
 
-        if (!textFieldNumHijos.getText().isEmpty()){
-            try {
-                persona.setNumHijos(Integer.valueOf(textFieldNumHijos.getText()));
-            } catch(NumberFormatException ex){
-                errorFormato = true;
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Número de hijos noválido");
-                alert.showAndWait();
-                textFieldNumHijos.requestFocus();
-            }
-        }
-
-        if (!textFieldSalario.getText().isEmpty()){
-            try {
-                Double dSalario =
-                        Double.valueOf(Double.valueOf(textFieldSalario.getText()).doubleValue()
-                        );
-                persona.setSalario(dSalario);
-            } catch(NumberFormatException ex) {
-                errorFormato = true;
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salario no válido");
-                alert.showAndWait();
-                textFieldSalario.requestFocus();
-            }
-        }
-
-
-        if(checkBoxJubilado.isSelected()){
-            Integer jubilado = 1;
-            persona.setJubilado(jubilado);
-        };
-
-        if (radioButtonCasado.isSelected()){
-            persona.setEstadoCivil(CASADO);
-        } else if (radioButtonSoltero.isSelected()){
-            persona.setEstadoCivil(SOLTERO);
-        } else if (radioButtonViudo.isSelected()){
-            persona.setEstadoCivil(VIUDO);
-        }
-
-        if (datePickerFechaNacimiento.getValue() != null){
-            LocalDate localDate = datePickerFechaNacimiento.getValue();
-            ZonedDateTime zonedDateTime =
-                    localDate.atStartOfDay(ZoneId.systemDefault());
-            Instant instant = zonedDateTime.toInstant();
-            Date date = Date.from(instant);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String fechaComoCadena = sdf.format(date);
-            persona.setFechaNacimiento(fechaComoCadena);
-        } else {
-            persona.setFechaNacimiento(null);
-        }
-
-        if (comboBoxProvincia.getValue() != null){
-            persona.setProvincia((Provincia) comboBoxProvincia.getValue());
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,"Debe indicar una provincia");
-            alert.showAndWait();
-            errorFormato = true;
-        }
-
     }
-    @Deprecated
+
+    @FXML
     private void onActionButtonCancelar(ActionEvent event){
-        StackPane rootMain = (StackPane) rootPersonaDetalleView.getScene().getRoot();
         int numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
-        TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);
-        rootMain.getChildren().remove(rootPersonaDetalleView);
-        rootAgendaView.setVisible(true);
+        TablePosition<Persona, String> pos = new TablePosition<>(tableViewPrevio, numFilaSeleccionada,null);
         tableViewPrevio.getFocusModel().focus(pos);
         tableViewPrevio.requestFocus();
+        StackPane rootMain = (StackPane) rootPersonaDetalleView.getScene().getRoot();
+        rootMain.getChildren().remove(rootPersonaDetalleView);
+        rootAgendaView.setVisible(true);
     }
 
     public void mostrarDatos() throws ParseException {
-        // Configurar TextFields
-        boolean errorFormato = false;
 
         textFieldNombre.setText(persona.getNombre());
         textFieldApellidos.setText(persona.getApellidos());
         textFieldTelefono.setText(persona.getTelefono());
         textFieldEmail.setText(persona.getEmail());
-        textFieldNumHijos.setText(String.valueOf(persona.getNumHijos()));
-        textFieldSalario.setText(String.valueOf(persona.getSalario()));
 
-        if (persona.getNumHijos() != null){
+        if(persona.getNumHijos() != null){
             textFieldNumHijos.setText(persona.getNumHijos().toString());
         }
-        if (persona.getSalario() != null){
+        if(persona.getSalario() != null){
             textFieldSalario.setText(persona.getSalario().toString());
         }
-        if (persona.getJubilado() != null && persona.getJubilado() == 1) {
+
+        if(persona.getJubilado() != null && persona.getJubilado() == 1){
             checkBoxJubilado.setSelected(true);
         } else {
             checkBoxJubilado.setSelected(false);
         }
-        if (persona.getEstadoCivil() != null) {
-            switch (persona.getEstadoCivil()) {
+
+        if (persona.getEstadoCivil() != null){
+            switch (persona.getEstadoCivil().charAt(0)){
                 case CASADO:
                     radioButtonCasado.setSelected(true);
                     break;
@@ -305,71 +243,68 @@ public class PersonaDetalleViewController {
                 case VIUDO:
                     radioButtonViudo.setSelected(true);
                     break;
-                default:
-                    // Deseleccionar si no coincide con ninguno de los valores esperados
-                    radioButtonCasado.setSelected(false);
-                    radioButtonSoltero.setSelected(false);
-                    radioButtonViudo.setSelected(false);
             }
-        } else {
-            radioButtonCasado.setSelected(false);
-            radioButtonSoltero.setSelected(false);
-            radioButtonViudo.setSelected(false);
         }
-        if (persona.getFechaNacimiento() != null){
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date fecNac = formato.parse(persona.getFechaNacimiento());
-            LocalDate fechaNac =
-                    fecNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            datePickerFechaNacimiento.setValue(fechaNac);
+
+        if(persona.getFechaNacimiento() != null){
+            try{
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                Date fecNac = formato.parse(persona.getFechaNacimiento());
+                LocalDate fechaNac = fecNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                datePickerFechaNacimiento.setValue(fechaNac);
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         comboBoxProvincia.setItems(dataUtil.getOlProvincias());
 
         comboBoxProvincia.setCellFactory(
-                (ListView<es.ieslosmontecillos.entities.Provincia> l)-> new ListCell<Provincia>(){
+                (ListView<Provincia> l) -> new ListCell<Provincia>(){
                     @Override
-                    protected void updateItem(es.ieslosmontecillos.entities.Provincia provincia, boolean empty){
+                    protected void updateItem(Provincia provincia, boolean empty) {
                         super.updateItem(provincia, empty);
-                        if (provincia == null || empty){
+                        if(provincia == null || empty){
                             setText("");
                         } else {
-                            setText(provincia.getCodigo()+"-"+provincia.getNombre());
+                            setText(provincia.getCodigo() + "-" + provincia.getNombre());
                         }
                     }
-                });
+                }
+        );
 
-
-        comboBoxProvincia.setConverter(new StringConverter<Provincia>(){
+        comboBoxProvincia.setConverter((new StringConverter<Provincia>(){
             @Override
             public String toString(Provincia provincia){
                 if (provincia == null){
                     return null;
                 } else {
-                    return provincia.getCodigo()+"-"+provincia.getNombre();
+                    return provincia.getCodigo() + "-" + provincia.getNombre();
                 }
             }
+
             @Override
-            public Provincia fromString(String userId){
+            public Provincia fromString(String userId) {
                 return null;
             }
-        });
+        }));
 
-        if (persona.getFoto() != null){
-            String imageFileName=persona.getFoto();
+        if(persona.getProvincia() != null){
+            comboBoxProvincia.setValue(persona.getProvincia());
+        }
+
+        if(persona.getFoto() != null){
+            String imageFileName = persona.getFoto();
             File file = new File(CARPETA_FOTOS+"/"+imageFileName);
-            if (file.exists()){
+            if(file.exists()){
                 Image image = new Image(file.toURI().toString());
                 imageViewFoto.setImage(image);
             } else {
-                Alert alert=new Alert(Alert.AlertType.INFORMATION,"No se encuentra laimagen en "+file.toURI().toString());
-                        alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "No se encuentra la imagen en "+file.toURI().toString());
+                alert.showAndWait();
             }
         }
-
-
     }
-
 
     public void setTableViewPrevio(TableView tableViewPrevio){
         this.tableViewPrevio=tableViewPrevio;
@@ -390,6 +325,7 @@ public class PersonaDetalleViewController {
         this.dataUtil = dataUtil;
     }
 
+    @FXML
     @Deprecated
     private void onActionButtonExaminar(ActionEvent event){
         File carpetaFotos = new File(CARPETA_FOTOS);
@@ -419,7 +355,7 @@ public class PersonaDetalleViewController {
         }
     }
 
-
+    @FXML
     @Deprecated
     private void onActionSuprimirFoto(ActionEvent event){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
