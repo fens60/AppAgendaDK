@@ -90,7 +90,7 @@ public class Persona {
     }
 
     // Campo Fecha Nacimiento
-    @XmlElement (name = "fecha_nacimiento")
+    @XmlElement (name = "fecha")
     public String getFechaNacimiento(){
         return fechaNacimiento.get();
     }
@@ -102,7 +102,7 @@ public class Persona {
     }
 
     // Campo num Hijos
-    @XmlElement (name = "num_hijos")
+    @XmlElement (name = "numHijos")
     public Integer getNumHijos(){
         Integer numeroHijos;
         numeroHijos = this.numHijos.getValue().intValue();
@@ -121,17 +121,16 @@ public class Persona {
     }
 
     // Campo Estado Civil
-    @XmlElement (name = "estado_civil")
+    @XmlElement (name = "estadoCivil")
     public String getEstadoCivil(){
         return estadoCivil.get();
     }
     public StringProperty estadoCivilProperty(){
         return estadoCivil;
     }
-    public void setEstadoCivil(char estadoCivil) {
-        this.estadoCivil.set(""+estadoCivil);
+    public void setEstadoCivil(String estadoCivil) {
+    this.estadoCivil.set((estadoCivil));
     }
-
     // Campo Salario
     @XmlElement (name = "salario")
     public Double getSalario(){
@@ -157,7 +156,9 @@ public class Persona {
         return jubilado;
     }
     public void setJubilado(Integer jubilado) {
-        this.jubilado.set(jubilado);
+        if (jubilado != null) {
+            this.jubilado.set(jubilado);
+        }
     }
 
     // Campo Foto

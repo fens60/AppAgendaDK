@@ -137,11 +137,11 @@ public class PersonaDetalleViewController {
         persona.setJubilado(checkBoxJubilado.isSelected()?1:0);
 
         if(radioButtonCasado.isSelected()){
-            persona.setEstadoCivil(CASADO);
+            persona.setEstadoCivil(String.valueOf(CASADO));
         } else if (radioButtonSoltero.isSelected()){
-            persona.setEstadoCivil(SOLTERO);
+            persona.setEstadoCivil(String.valueOf(SOLTERO));
         } else if (radioButtonViudo.isSelected()){
-            persona.setEstadoCivil(VIUDO);
+            persona.setEstadoCivil(String.valueOf(VIUDO));
         }
 
         if(datePickerFechaNacimiento.getValue() != null){
@@ -311,7 +311,9 @@ public class PersonaDetalleViewController {
     }
     public void setPersona(Persona persona, Boolean nuevaPersona){
         if (!nuevaPersona){
+
             this.persona= persona;
+            mostrarDatos();
         } else {
             this.persona = new Persona();
         }
