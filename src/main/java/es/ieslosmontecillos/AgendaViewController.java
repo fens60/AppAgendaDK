@@ -80,18 +80,33 @@ public class AgendaViewController implements Initializable {
     @FXML
     private void onActionButtonEditar(ActionEvent event) {
         try {
+            Persona personaSeleccionada = (Persona) tableViewAgenda.getSelectionModel().getSelectedItem();
+
+            if (personaSeleccionada == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Seleciona una persona");
+                alert.setHeaderText("No hay selección");
+                alert.setContentText("Por favor, selecciona una persona de la tabla para editar.");
+                alert.showAndWait();
+                return;
+            }
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-            Parent rootDetalleView=fxmlLoader.load();
+            Parent rootDetalleView = fxmlLoader.load();
+
             PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
             personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
             personaDetalleViewController.setDataUtil(dataUtil);
-            personaDetalleViewController.setPersona(personaSeleccionada,false);
+
+            personaDetalleViewController.setPersona(personaSeleccionada, false);
+            personaDetalleViewController.mostrarDatos();
+
             rootAgendaView.setVisible(false);
             StackPane rootMain = (StackPane) rootAgendaView.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
 
-        } catch (IOException ex) {
+        } catch (IOException | ParseException ex) {
             System.out.println("Error volcado "+ex);
         }
 

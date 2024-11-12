@@ -71,10 +71,16 @@ public class PersonaDetalleViewController {
     private ComboBox<Provincia> comboBoxProvincia;
     @FXML
     private TextField textFieldApellidos;
-    
+
+    private ToggleGroup group;
+
 
     @FXML
     public void initialize() {
+        group = new ToggleGroup();
+        radioButtonSoltero.setToggleGroup(group);
+        radioButtonCasado.setToggleGroup(group);
+        radioButtonViudo.setToggleGroup(group);
     }
 
     @FXML
@@ -313,7 +319,6 @@ public class PersonaDetalleViewController {
         if (!nuevaPersona){
 
             this.persona= persona;
-            mostrarDatos();
         } else {
             this.persona = new Persona();
         }
