@@ -20,10 +20,11 @@ public class InicioController {
     private DataUtil dataUtil;
     ObservableList olProv;
     ObservableList olPers;
+    ObservableList ollogin;
 
     private Pane rootMain = new Pane();
     @FXML
-    public void iniciaApp(Event event){
+    public void iniciaApp(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
@@ -51,5 +52,9 @@ public class InicioController {
     public void setOlPers(ObservableList olPers) {
         this.olPers = olPers;
     }
+    public void setOllogin(ObservableList ollogin) {
+        this.ollogin = ollogin;
+    }
+
 
 }

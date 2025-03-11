@@ -6,24 +6,31 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
+<?import es.ieslosmontecillos.LoginViewController?>
 
 <View fx:id="inicio" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.ieslosmontecillos.InicioController">
-    <center>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-            <children>
-                <Label text="AppAgenda">
-                    <font>
-                        <Font name="System Bold" size="22.0" />
-                    </font>
-                </Label>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#iniciaApp">
-                    <image>
-                        <Image url="@../agenda.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </VBox>
-    </center>
+    <HBox>
+        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Label text="AppAgenda">
+                        <font>
+                            <Font name="System Bold" size="22.0" />
+                        </font>
+                    </Label>
+                    <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#iniciaApp" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../agenda.png" />
+                        </image>
+                    </ImageView>
+                </children>
+            </VBox>
+          <VBox prefHeight="200.0" prefWidth="300.0" alignment="CENTER_LEFT">
+
+            <LoginViewController />
+          </VBox>
+
+    </HBox>
 </View>
