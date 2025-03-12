@@ -36,7 +36,7 @@
                <children>
                   <ImageView fitHeight="99.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="../user.png" />
+                        <Image url="@../../../../../../../../../Desktop/AppAgendaDK/src/main/resources/es/ieslosmontecillos/user.png" />
                      </image>
                   </ImageView>
                </children>
