@@ -8,20 +8,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import java.io.IOException;
 
 public class InicioController {
+
     @FXML
     private View inicio;
     @FXML
-    private Label label;
+    private TextField TextFieldUsuario;
+    @FXML
+    private TextField TextFieldContrasena;
+
     private DataUtil dataUtil;
     ObservableList olProv;
     ObservableList olPers;
+    ObservableList olLogin;
+
+    private final String usuario = "Admin";
+    private final String contrasena = "Admin";
 
     private Pane rootMain = new Pane();
+
+
     @FXML
     public void iniciaApp(Event event){
         try{
@@ -39,6 +50,28 @@ public class InicioController {
             System.out.println("IOException: " + e);
         }
     }
+
+    public void iniciaLogin(Event event){
+        if (TextFieldUsuario.getText().equals(usuario) && TextFieldContrasena.getText().equals(contrasena)){
+        try{
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/LoginView.fxml"));
+            Pane rootAgendaView = fxmlLoader.load();
+            rootMain.getChildren().add(rootAgendaView);
+            LoginViewController loginViewController= (LoginViewController) fxmlLoader.getController();
+            loginViewController.setDataUtil(dataUtil);
+            loginViewController.setOlLogins(olLogin);
+            loginViewController.cargarTodasLogins();
+
+
+        } catch (IOException e) {
+            System.out.println("IOException: " + e);
+        }
+        }else {
+            System.out.println("Error de usuario o contraseña");
+        }
+    }
+
     public void setRootMain(Pane rootMain) {
         this.rootMain = rootMain;
     }
@@ -50,6 +83,9 @@ public class InicioController {
     }
     public void setOlPers(ObservableList olPers) {
         this.olPers = olPers;
+    }
+    public void setOlLogin(ObservableList olLogin) {
+        this.olLogin = olLogin;
     }
 
 }
