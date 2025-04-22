@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.image.ImageView;
 import java.io.IOException;
 
 public class InicioController {
@@ -17,6 +18,8 @@ public class InicioController {
     private View inicio;
     @FXML
     private Label label;
+    @FXML
+    private ImageView imgAgenda;
     private DataUtil dataUtil;
     ObservableList olProv;
     ObservableList olPers;
@@ -24,21 +27,21 @@ public class InicioController {
     private Pane rootMain = new Pane();
     @FXML
     public void iniciaApp(Event event){
-        try{
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
-            rootMain.getChildren().add(rootAgendaView);
-            AgendaViewController agendaViewController= (AgendaViewController) fxmlLoader.getController();
+
+            AgendaViewController agendaViewController = fxmlLoader.getController();
             agendaViewController.setDataUtil(dataUtil);
             agendaViewController.setOlProvincias(olProv);
             agendaViewController.setOlPersonas(olPers);
             agendaViewController.cargarTodasPersonas();
-
-
+            imgAgenda.setOpacity(0.0);
         } catch (IOException e) {
             System.out.println("IOException: " + e);
         }
     }
+
     public void setRootMain(Pane rootMain) {
         this.rootMain = rootMain;
     }
