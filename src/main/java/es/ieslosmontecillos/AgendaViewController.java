@@ -26,6 +26,7 @@ public class AgendaViewController implements Initializable {
     private DataUtil dataUtil;
     private ObservableList<Provincia> olProvincias;
     private ObservableList<Persona> olPersonas;
+    private Usuario usuario;
     private Persona personaSeleccionada;
 
     @FXML
@@ -44,6 +45,12 @@ public class AgendaViewController implements Initializable {
     private TextField textFieldNombre;
     @FXML
     private TextField textFieldApellido;
+    @FXML
+    private Button Nuevo;
+    @FXML
+    private Button Editar;
+    @FXML
+    private Button Suprimir;
 
     public void setDataUtil(DataUtil dataUtil){
         this.dataUtil=dataUtil;
@@ -54,14 +61,20 @@ public class AgendaViewController implements Initializable {
     public void setOlPersonas(ObservableList<Persona> olPersonas) {
         this.olPersonas = olPersonas;
     }
-
     @FXML
     private void onActionButtonNuevo(ActionEvent event){
         try{
 
             // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-            Parent rootDetalleView=fxmlLoader.load();
+
+            AnchorPane rootDetalleView=fxmlLoader.load();
+            AnchorPane.setTopAnchor(rootDetalleView, 0.0);
+            AnchorPane.setBottomAnchor(rootDetalleView, 0.0);
+            AnchorPane.setLeftAnchor(rootDetalleView, 0.0);
+            AnchorPane.setRightAnchor(rootDetalleView, 0.0);
+            rootDetalleView.setStyle("-fx-background-color: lightblue;");
+
             PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
             personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
@@ -92,7 +105,7 @@ public class AgendaViewController implements Initializable {
             }
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-            Parent rootDetalleView = fxmlLoader.load();
+            AnchorPane rootDetalleView = fxmlLoader.load();
 
             PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
@@ -189,6 +202,33 @@ public class AgendaViewController implements Initializable {
     public void setRootAgendaView(Pane rootAgendaView){
         this.rootAgendaView = rootAgendaView;
     }
+    public void setUsuario(Usuario usuario){
+        this.usuario=usuario;
+        configurarPermisos();
+    }
 
+    private void configurarPermisos() {
+        if (usuario == null || usuario.getTipo() == null) return;
+
+        String tipo = usuario.getTipo().toUpperCase(); // Por si viene en minúscula
+
+        switch (tipo) {
+            case "A": // Administrador: todo habilitado
+                Nuevo.setDisable(false);
+                Editar.setDisable(false);
+                Suprimir.setDisable(false);
+                break;
+            case "U": // Usuario: solo puede añadir
+                Nuevo.setDisable(false);
+                Editar.setDisable(true);
+                Suprimir.setDisable(true);
+                break;
+            default:
+                Nuevo.setDisable(true);
+                Editar.setDisable(true);
+                Suprimir.setDisable(true);
+                break;
+        }
+    }
 
 }

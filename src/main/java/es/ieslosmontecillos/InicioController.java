@@ -20,21 +20,21 @@ public class InicioController {
     private DataUtil dataUtil;
     ObservableList olProv;
     ObservableList olPers;
+    ObservableList olUsua;
 
     private Pane rootMain = new Pane();
     @FXML
     public void iniciaApp(Event event){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/InicialSecion.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
-            rootMain.getChildren().add(rootAgendaView);
-            AgendaViewController agendaViewController= (AgendaViewController) fxmlLoader.getController();
-            agendaViewController.setDataUtil(dataUtil);
-            agendaViewController.setOlProvincias(olProv);
-            agendaViewController.setOlPersonas(olPers);
-            agendaViewController.cargarTodasPersonas();
-
-
+            rootMain.getChildren().setAll(rootAgendaView);
+            InicialSecionController inicialSecionController= (InicialSecionController) fxmlLoader.getController();
+            inicialSecionController.setDataUtil(dataUtil);
+            inicialSecionController.setOlProv(olProv);
+            inicialSecionController.setOlPers(olPers);
+            inicialSecionController.setOlUsua(olUsua);
+            inicialSecionController.setRootMain(rootMain);
         } catch (IOException e) {
             System.out.println("IOException: " + e);
         }
@@ -50,6 +50,9 @@ public class InicioController {
     }
     public void setOlPers(ObservableList olPers) {
         this.olPers = olPers;
+    }
+    public void setOlUsua(ObservableList olUsua) {
+        this.olUsua = olUsua;
     }
 
 }
