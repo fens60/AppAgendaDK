@@ -15,6 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,16 +67,8 @@ public class AgendaViewController implements Initializable {
     private void onActionButtonNuevo(ActionEvent event){
         try{
 
-            // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-
-            AnchorPane rootDetalleView=fxmlLoader.load();
-            AnchorPane.setTopAnchor(rootDetalleView, 0.0);
-            AnchorPane.setBottomAnchor(rootDetalleView, 0.0);
-            AnchorPane.setLeftAnchor(rootDetalleView, 0.0);
-            AnchorPane.setRightAnchor(rootDetalleView, 0.0);
-            rootDetalleView.setStyle("-fx-background-color: lightblue;");
-
+            Parent rootDetalleView=fxmlLoader.load();
             PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
             personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
@@ -105,7 +99,7 @@ public class AgendaViewController implements Initializable {
             }
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-            AnchorPane rootDetalleView = fxmlLoader.load();
+            Parent rootDetalleView = fxmlLoader.load();
 
             PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
@@ -162,6 +156,14 @@ public class AgendaViewController implements Initializable {
 
         tableViewAgenda.getFocusModel().focus(pos);
         tableViewAgenda.requestFocus();
+    }
+
+    @FXML
+    private void onActionButtonInforme(ActionEvent actionEvent){
+        JasperPrint jasperPrint = Reports.USUARIO_REPORT.getReportFromBackend();
+        if (jasperPrint == null) return;
+
+        JasperViewer.viewReport(jasperPrint, false);
     }
 
     /**

@@ -101,19 +101,19 @@ public class InicialSecionController {
     private void cargarVista(Usuario usuario) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
-            AnchorPane rootAgendaView = fxmlLoader.load();
-            rootAgendaView.setStyle("-fx-background-color: rgba(0, 255, 0, 0.2);");
-            rootMain.getChildren().setAll(rootAgendaView);
-            AgendaViewController controller = (AgendaViewController) fxmlLoader.getController();
-            controller.setDataUtil(dataUtil);
-            controller.setOlProvincias(olProv);
-            controller.setOlPersonas(olPers);
-            controller.setUsuario(usuario);
-            controller.cargarTodasPersonas();
-            controller.setRootAgendaView(rootMain);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            Pane rootAgendaView = fxmlLoader.load();
+            rootMain.getChildren().clear();
+            rootMain.getChildren().add(rootAgendaView);
+            AgendaViewController agendaViewController= (AgendaViewController) fxmlLoader.getController();
+            agendaViewController.setDataUtil(dataUtil);
+            agendaViewController.setOlProvincias(olProv);
+            agendaViewController.setOlPersonas(olPers);
+            agendaViewController.setUsuario(usuario);
+            agendaViewController.cargarTodasPersonas();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
     }
 
 
