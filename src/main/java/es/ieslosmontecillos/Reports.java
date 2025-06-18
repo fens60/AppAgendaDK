@@ -6,12 +6,11 @@ import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 
 /**
  * Enum class to manage all existing jasper reports in the app
- * @author Francisco Manuel Gonzalez Martin
  * @version 1.0
  */
 public enum Reports
 {
-    APPAGENDA_REPORT;
+    AGENDA_REPORT;
 
     /**
      * API Manager to connect to the report endpoints in backend
@@ -55,8 +54,8 @@ public enum Reports
     public String getReportName()
     {
         switch (this) {
-            case APPAGENDA_REPORT:
-                return "AppAgenda";
+            case AGENDA_REPORT:
+                return "agenda";
             default:
                 throw new IllegalArgumentException();
         }

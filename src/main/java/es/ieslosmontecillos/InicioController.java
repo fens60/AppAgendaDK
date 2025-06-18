@@ -27,16 +27,15 @@ public class InicioController {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
+            rootMain.getChildren().clear();
             rootMain.getChildren().add(rootAgendaView);
             AgendaViewController agendaViewController= (AgendaViewController) fxmlLoader.getController();
             agendaViewController.setDataUtil(dataUtil);
             agendaViewController.setOlProvincias(olProv);
             agendaViewController.setOlPersonas(olPers);
             agendaViewController.cargarTodasPersonas();
-
-
         } catch (IOException e) {
-            System.out.println("IOException: " + e);
+            e.printStackTrace();
         }
     }
     public void setRootMain(Pane rootMain) {

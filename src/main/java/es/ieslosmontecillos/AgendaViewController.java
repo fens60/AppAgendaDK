@@ -155,11 +155,12 @@ public class AgendaViewController implements Initializable {
 
     @FXML
     private void onActionButtonInforme(ActionEvent actionEvent) {
-        JasperPrint jasperPrint = Reports.APPAGENDA_REPORT.getReportFromBackend();
+        JasperPrint jasperPrint = Reports.AGENDA_REPORT.getReportFromBackend();
         if (jasperPrint == null) return;
 
         JasperViewer.viewReport(jasperPrint, false);
     }
+
     /**
      * Initializes the controller class.
      */
