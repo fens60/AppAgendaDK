@@ -15,6 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -153,9 +155,11 @@ public class AgendaViewController implements Initializable {
 
     @FXML
     private void onActionButtonInforme(ActionEvent actionEvent) {
+        JasperPrint jasperPrint = Reports.APPAGENDA_REPORT.getReportFromBackend();
+        if (jasperPrint == null) return;
 
+        JasperViewer.viewReport(jasperPrint, false);
     }
-
     /**
      * Initializes the controller class.
      */

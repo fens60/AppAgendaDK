@@ -11,8 +11,7 @@ import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
  */
 public enum Reports
 {
-    USUARIO_REPORT;
-
+    APPAGENDA_REPORT;
 
     /**
      * API Manager to connect to the report endpoints in backend
@@ -56,8 +55,8 @@ public enum Reports
     public String getReportName()
     {
         switch (this) {
-            case USUARIO_REPORT:
-                return "Usuario";
+            case APPAGENDA_REPORT:
+                return "AppAgenda";
             default:
                 throw new IllegalArgumentException();
         }
