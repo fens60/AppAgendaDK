@@ -151,6 +151,11 @@ public class AgendaViewController implements Initializable {
         tableViewAgenda.requestFocus();
     }
 
+    @FXML
+    private void onActionButtonInforme(ActionEvent actionEvent) {
+
+    }
+
     /**
      * Initializes the controller class.
      */
